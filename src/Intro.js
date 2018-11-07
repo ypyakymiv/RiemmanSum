@@ -65,8 +65,8 @@ class Intro extends Component {
         <div style={{position: 'absolute', left: '50%', bottom: '40%'}}>
           <img style={{position: 'relative', left: '-50%'}} src="rizzuto.png" />
         </div>
-        <div style={{position: 'absolute', left: '50%', bottom: 0, padding: 30}}>
-          <span style={{position: 'relative', width: '100%', fontSize: 30, color: 'white', textAlign: 'center', textAlign: 'center'}}>
+        <div style={{position: 'absolute', left: 0, right: 0, bottom: 0, padding: 30}}>
+          <span style={{display: 'block', width: '100%', fontSize: 30, color: 'white', textAlign: 'center', textAlign: 'center'}}>
             By Yuri Yakymiv
           </span>
         </div>
