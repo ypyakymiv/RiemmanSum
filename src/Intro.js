@@ -69,6 +69,9 @@ class Intro extends Component {
           <span style={{display: 'block', width: '100%', fontSize: 30, color: 'white', textAlign: 'center', textAlign: 'center'}}>
             By Yuri Yakymiv
           </span>
+          <span style={{display: 'block', width: '100%', fontSize: 24, color: 'white', textAlign: 'center', textAlign: 'center'}}>
+            Also Grant
+          </span>
         </div>
       </Box>
     );
