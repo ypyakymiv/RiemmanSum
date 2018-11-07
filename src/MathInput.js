@@ -1,4 +1,4 @@
-/* global MQ, math, latex_to_js */
+/* global MQ, math, latex_to_js, $ */
 
 import React, { Component } from 'react';
 import { setExpression, setValid } from './redux/math';
@@ -6,6 +6,18 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 class MathInput extends Component {
+
+  state = {
+    visible: false,
+    mf: null
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { mf, visible } = this.state;
+    if(prevState.visible != visible && mf) {
+      mf.focus();
+    }
+  }
 
   componentDidMount() {
     const { parse } = math;
@@ -17,7 +29,16 @@ class MathInput extends Component {
 
     var mf = MQ.MathField(el, {
       handlers: {
+        enter: () => {
+          if(this.state.visible) {
+            this.setState({visible: false})
+          }
+        },
         edit: () => {
+          if(!this.state.visible) {
+            this.setState({visible: true});
+          }
+
           var latx = latex_to_js(mf.latex());
           try {
             if(latx == "") throw "blank";
@@ -34,18 +55,47 @@ class MathInput extends Component {
       }
     });
 
+    document.addEventListener('wheel', () => {
+      if(this.state.visible)
+        this.setState({visible: false});
+    });
+
+    document.addEventListener('mousedown', () => {
+      if(this.state.visible)
+        this.setState({visible: false});
+    });
+
+    document.addEventListener('mouseup', (e) => {
+      if(this.state.visible) {
+        this.setState({visible: false});
+      }
+      if(e.target.id != "typeselect") {
+        mf.focus();
+      }
+
+    });
+
+    $('#typeselect').on('blur', () => {
+        mf.focus();
+    })
+
+    mf.focus();
+
+    this.setState({mf});
   }
 
   render() {
 
     const { valid } = this.props;
+    const { visible } = this.state;
 
     return (
       <div style={{
         position: 'absolute',
         left: '50%',
         bottom: '50%',
-        zIndex: 2
+        zIndex: 2,
+        opacity: visible ? 1 : 0
       }}>
         <div style={{
           position: 'relative',
@@ -54,7 +104,8 @@ class MathInput extends Component {
           backgroundColor: 'white',
           border: '1px solid ' + (valid ? 'green' : 'red'),
           borderRadius: 15,
-          fontSize: 50
+          fontSize: 50,
+          // pointerEvents: visible ? 'default' : 'none'
         }}>
           <span id="func" style={{
             fontSize: 50,
@@ -63,7 +114,8 @@ class MathInput extends Component {
           <span id="mathinput" style={{
             border: 'none',
             outline: 'none',
-            fontSize: 50
+            fontSize: 50,
+            // pointerEvents: visible ? 'default' : 'none'
           }} />
         </div>
 

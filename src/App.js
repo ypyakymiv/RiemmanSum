@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
-import Graph from './Graph';
-import MathInput from './MathInput';
-import Sliders from './Sliders';
+import Main from './Main';
+import Intro from './Intro';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+
 
 
 class App extends Component {
@@ -13,14 +12,15 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div>
-          <Graph />
-          <MathInput />
-          <Sliders />
+          <Intro />
+          <Main />
         </div>
       </Provider>
     );
   }
 
 }
+
+
 
 export default App;

@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setRSum, setASum } from './redux/math';
 
 class Graph extends Component {
 
@@ -33,32 +35,40 @@ class Graph extends Component {
   }
 
   _setRSum = () => {
-    const { start, end, n } = this.props;
+    const { start, end, n, type, setRSum, setASum } = this.props;
     const { f, board } = this.state;
-    var rsum = board.create('riemannsum',[f, () => n, () => 'trapezoidal', () => start, () => end],
-    {fillColor:'#ffff00', fillOpacity:0.3});
+    var rsum = board.create('riemannsum',[f, n, type, start, end],
+    {fillColor:'#ffff00', fillOpacity:0.3, highlight: false});
+    setASum(JXG.Math.Numerics.I([start, end], f));
+    setRSum(parseFloat(rsum.Value()));
     this.setState({rsum});
   }
 
   _setGraph = () => {
-    const { expression, start, end, n } = this.props;
+    const { expression, start, end, n, type, setRSum, setASum } = this.props;
     const { board } = this.state;
     const code = math.parse(expression).compile()
     const f = (x) => {
       return code.eval({x});
     }
-    var func = this.state.board.create('functiongraph',[f, -10, 10]);
-    var rsum = board.create('riemannsum',[f, () => n, () => 'trapezoidal', () => start, () => end],
-    {fillColor:'#ffff00', fillOpacity:0.3});
+    var func = board.create('functiongraph',[f, start, end], {highlight: false});
+    var rsum = board.create('riemannsum',[f, n, type, start, end],
+    {fillColor:'#ffff00', fillOpacity:0.3, highlight: false});
+    setASum(JXG.Math.Numerics.I([start, end], f));
+    setRSum(parseFloat(rsum.Value(), 4));
     this.setState({f, func, rsum});
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     const { props } = this
-    if(nextProps.expression != props.expression && nextState.board) {
-      return true;
-    } else if(nextProps.n != props.n || nextProps.start != props.start || nextProps.end != props.end) {
-      return true;
+    if(nextState.board == null) return false;
+
+    if(nextProps.expression != props.expression
+      || nextProps.n != props.n
+      || nextProps.start != props.start
+      || nextProps.end != props.end
+      || nextProps.type != props.type) {
+      return nextProps.valid ? true : false;
     }
     return false;
   }
@@ -67,12 +77,12 @@ class Graph extends Component {
     const { func, board, rsum } = this.state;
     const { props } = this;
 
-    if(prevProps.n != props.n) {
+    if(prevProps.n != props.n || prevProps.type != props.type) {
       this._clearRSum();
       this._setRSum();
     }
 
-    if(prevProps.expression != props.expression) {
+    if((prevProps.expression != props.expression) || (prevProps.start != props.start) || (prevProps.end != props.end)) {
       if(func||rsum)
         this._clearGraph();
 
@@ -81,10 +91,10 @@ class Graph extends Component {
       }
     }
 
-  }
+ }
 
   componentDidMount() {
-    var brd = JXG.JSXGraph.initBoard('box', {axis: true, boundingbox: [-5,5,5,-5], showCopyright: false});
+    var brd = JXG.JSXGraph.initBoard('box', {axis: true, boundingbox: [-5,5,5,-5], showCopyright: false, showNavigation: false, zoom: true, pan: true});
     this.setState({board: brd})
   }
 
@@ -108,8 +118,16 @@ const mapStateToProps = (state) => {
     valid: state.valid,
     n: state.n,
     start: state.start,
-    end: state.end
+    end: state.end,
+    type: state.type
   };
 }
 
-export default connect(mapStateToProps)(Graph);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setRSum: bindActionCreators(setRSum, dispatch),
+    setASum: bindActionCreators(setASum, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Graph);

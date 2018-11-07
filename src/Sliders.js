@@ -12,15 +12,15 @@ class Sliders extends Component {
     var n = document.getElementById('n');
 
     n.oninput = () => {
-      setN(n.value)
+      setN(parseInt(n.value))
     }
 
     start.oninput = () => {
-      setStart(start.value)
+      setStart(parseInt(start.value))
     }
 
     end.oninput = () => {
-      setEnd(end.value)
+      setEnd(parseInt(end.value))
     }
   }
 
@@ -37,11 +37,28 @@ class Sliders extends Component {
       }}>
         <div style={{
           position: 'relative',
-          left: '-50%'
+          left: '-50%',
+          display: 'table'
         }}>
-          <input type="range" min="-100" max="100" id="start" defaultValue={start} />
-          <input type="range" min="1" max="100" id="n" defaultValue={n} />
-          <input type="range" min="-100" max="100" id="end" defaultValue={end} />
+          <div style={{verticalAlign: 'middle', display: 'table-cell'}}>
+            <span style={{display: 'block', textAlign: 'center'}}>
+              start = {start}
+            </span>
+            <input type="range" min="-100" max="0" id="start" defaultValue={start} />
+          </div>
+          <div style={{verticalAlign: 'middle', display: 'table-cell'}}>
+            <span style={{display: 'block', textAlign: 'center'}}>
+              n = {n}
+            </span>
+            <input type="range" min="1" max="100" id="n" defaultValue={n} />
+          </div>
+
+          <div style={{verticalAlign: 'middle', display: 'table-cell'}}>
+            <span style={{display: 'block', textAlign: 'center'}}>
+              end = {end}
+            </span>
+            <input type="range" min="0" max="100" id="end" defaultValue={end} />
+          </div>
         </div>
       </div>
     );
