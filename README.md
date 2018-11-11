@@ -1,5 +1,10 @@
+<h1 align="center">
+  Yuri's Riemann Sum Calculator<br/>
+  <img src="https://github.com/ypyakymiv/RiemmanSum/blob/master/RM_res/RiemannExample.gif" />
+</h1>
+
 Be prepared to wait 1-2 min for the following link to load, it is hosted on Heroku for free:
-yurisum.herokuapp.com
+<a href="yurisum.herokuapp.com">yurisum.herokuapp.com</a>
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
