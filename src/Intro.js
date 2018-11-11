@@ -60,7 +60,7 @@ class Intro extends Component {
           width: '100%',
           top: 40,
         }}>
-          Rizzuto's Reman Sum calculator
+          Rizzuto's Riemann Sum calculator
         </span>
         <div style={{position: 'absolute', left: '50%', bottom: '40%'}}>
           <img style={{position: 'relative', left: '-50%'}} src="rizzuto.png" />
@@ -69,9 +69,7 @@ class Intro extends Component {
           <span style={{display: 'block', width: '100%', fontSize: 30, color: 'white', textAlign: 'center', textAlign: 'center'}}>
             By Yuri Yakymiv
           </span>
-          <span style={{display: 'block', width: '100%', fontSize: 24, color: 'white', textAlign: 'center', textAlign: 'center'}}>
-            Also Grant
-          </span>
+
         </div>
       </Box>
     );
