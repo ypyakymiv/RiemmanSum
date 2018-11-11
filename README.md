@@ -1,3 +1,6 @@
+Be prepared to wait 1-2 min for the following link to load, it is hosted on Heroku for free:
+yurisum.herokuapp.com
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
